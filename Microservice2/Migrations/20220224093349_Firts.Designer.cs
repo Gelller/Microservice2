@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Microservice2.Migrations
 {
     [DbContext(typeof(DebitCardDbContext))]
-    [Migration("20220221103154_Firts")]
+    [Migration("20220224093349_Firts")]
     partial class Firts
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,6 +39,26 @@ namespace Microservice2.Migrations
                     b.HasKey("id");
 
                     b.ToTable("debitcard");
+                });
+
+            modelBuilder.Entity("Microservice2.Model.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users");
                 });
 #pragma warning restore 612, 618
         }

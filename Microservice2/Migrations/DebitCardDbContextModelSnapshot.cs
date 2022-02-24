@@ -38,6 +38,26 @@ namespace Microservice2.Migrations
 
                     b.ToTable("debitcard");
                 });
+
+            modelBuilder.Entity("Microservice2.Model.User", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("users");
+                });
 #pragma warning restore 612, 618
         }
     }

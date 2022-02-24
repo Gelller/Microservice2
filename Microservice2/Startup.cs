@@ -23,6 +23,10 @@ using Microservice2.Domain.Managers.Implementation;
 using Microservice2.Data.Interfaces;
 using Microservice2.Data.Implementation;
 using Microservice2.Domain.Aggregates.DebitCardAggregate;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using FluentValidation;
+using Microservice2.Model.Dto;
 
 namespace Microservice2
 {
@@ -40,28 +44,20 @@ namespace Microservice2
         {
             services.AddControllers();
             services.ConfigureDbContext(Configuration);
+            services.ConfigureAuthentication(Configuration);
+            services.ConfigureBackendSwagger();
             services.ConfigureMapper();
+
             services.AddScoped<IDebitCardManager, DebitCardManager>();
             services.AddScoped<IDebitCardRepo, DebitCardRepo>();
             services.AddScoped<IDebitCardAggregateRepo, DebitCardAggregateRepo>();
-           
+            services.AddScoped<IUsersManager, UsersManager>();
+            services.AddScoped<IUsersRepo, UsersRepo>();
+            services.AddScoped<ILoginManager, LoginManager>();
 
-            services.AddSwaggerGen();
-            services.AddSwaggerGen(c =>
-            {
 
-            c.SwaggerDoc("v1", new OpenApiInfo
-
-            {
-                Version = "v1",
-                Title = "Microservice2",
-              });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-
+            
+         
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,26 +66,19 @@ namespace Microservice2
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Microservice2 v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();         
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-               
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+           
         }
     }
 }

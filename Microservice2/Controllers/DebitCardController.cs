@@ -9,9 +9,11 @@ using Microservice2.Model.Dto;
 using AutoMapper;
 using Microservice2.Domain.Managers.Interfaces;
 using Microservice2.Domain.Managers.Implementation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Microservice2.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class DebitCardController : ControllerBase
@@ -27,35 +29,35 @@ namespace Microservice2.Controllers
             _mapper = mapper;
             _logger = logger;
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetDebitCards")]
         public async Task<IActionResult> GetItems()
         {
             var result = await _debitCardManager.GetItems();
             return Ok(result);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet("GetDebitCard/{id}")]
         public async Task<IActionResult> GetItem([FromRoute] Guid id)
         {
             var result = await _debitCardManager.GetItem(id);
             return Ok(result);
         }
-
+        [Authorize(Roles="admin")]
         [HttpPost("AddDebitCard")]
         public async Task<IActionResult> AddToCollection([FromBody] DebitCardDto debitCard)
         {
             var id = await _debitCardManager.Add(_mapper.Map<DebitCard>(debitCard));
             return Ok(id);
         }
-
+        [Authorize(Roles = "admin")]
         [HttpPut("UpdateDebitCard/{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] DebitCardDto debitCard)
         {
             await _debitCardManager.Update(id, _mapper.Map<DebitCard>(debitCard));
             return Ok();
         }
-
+        [Authorize(Roles = "admin")]
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
