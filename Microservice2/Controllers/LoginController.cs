@@ -34,6 +34,6 @@ namespace Microservice2.Controllers
             var loginResponse = await _loginManager.Authenticate(user);
 
             return Ok(loginResponse);
-        }
+        }     
     }
 }
