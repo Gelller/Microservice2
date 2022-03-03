@@ -31,13 +31,20 @@ using Microservice2.Model.Dto;
 namespace Microservice2
 {
     public class Startup
-    {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
+    { 
+        public Startup(IHostEnvironment env)
+        {          
+            var bulder = new ConfigurationBuilder()
+              .SetBasePath(env.ContentRootPath)
+              .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)           
+              .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+              .AddEnvironmentVariables();
+               Configuration = bulder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        
+
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
