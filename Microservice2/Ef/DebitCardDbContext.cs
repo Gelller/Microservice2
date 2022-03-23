@@ -12,13 +12,15 @@ namespace Microservice2.Ef
     public class DebitCardDbContext : DbContext
     {
         public DbSet<DebitCard> DebitCard { get; set; }
+        public DbSet<User> Users { get; set; }
         public DebitCardDbContext(DbContextOptions<DebitCardDbContext> options) : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new DebitCardConfigurations());        
+            modelBuilder.ApplyConfiguration(new DebitCardConfigurations());
+            modelBuilder.ApplyConfiguration(new UserConfigurations());
         }
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
