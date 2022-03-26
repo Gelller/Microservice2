@@ -11,7 +11,7 @@ namespace Microservice2.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class LoginController : ControllerBase
+    public class LoginController : Microservice2BaseController
     {
         private readonly IUsersManager _userManager;
         private readonly ILoginManager _loginManager;

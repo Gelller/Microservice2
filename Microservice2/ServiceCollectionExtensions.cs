@@ -12,6 +12,9 @@ using Microservice2.Model.Authentication;
 using Microservice2.Domain.Managers.Interfaces;
 using Microservice2.Domain.Managers.Implementation;
 using Microsoft.OpenApi.Models;
+using FluentValidation;
+using Microservice2.Model.Dto;
+using Microservice2.Validation;
 
 namespace Microservice2
 {
@@ -80,6 +83,12 @@ namespace Microservice2
                     }
                 });
             });
+        }
+
+        public static void ConfigureValidation(this IServiceCollection services)
+        {      
+            services.AddTransient<IValidator<UserDto>, UserDtoValidation>();
+            services.AddTransient<IValidator<DebitCardDto>, DebitCardDtoValidation>();
         }
     }
 }
