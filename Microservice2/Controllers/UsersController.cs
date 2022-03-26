@@ -14,7 +14,7 @@ namespace Microservice2.Controllers
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class UsersController : ControllerBase
+    public class UsersController : Microservice2BaseController
     {
         private readonly IUsersManager _userManager;
         private readonly IMapper _mapper;

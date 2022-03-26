@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation;
 using Microservice2.Model.Dto;
+using FluentValidation.AspNetCore;
 
 namespace Microservice2
 {
@@ -54,6 +55,7 @@ namespace Microservice2
             services.ConfigureAuthentication(Configuration);
             services.ConfigureBackendSwagger();
             services.ConfigureMapper();
+            services.ConfigureValidation();
 
             services.AddScoped<IDebitCardManager, DebitCardManager>();
             services.AddScoped<IDebitCardRepo, DebitCardRepo>();
@@ -62,9 +64,9 @@ namespace Microservice2
             services.AddScoped<IUsersRepo, UsersRepo>();
             services.AddScoped<ILoginManager, LoginManager>();
 
+            services.AddControllers().AddFluentValidation();
 
-            
-         
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
