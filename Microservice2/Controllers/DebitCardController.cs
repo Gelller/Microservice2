@@ -10,29 +10,34 @@ using AutoMapper;
 using Microservice2.Domain.Managers.Interfaces;
 using Microservice2.Domain.Managers.Implementation;
 using Microsoft.AspNetCore.Authorization;
+using Microservice2.UnitOfWorkCon;
 
 namespace Microservice2.Controllers
 {
     [Authorize]
     [ApiController]
     [Route("[controller]")]
-    public class DebitCardController : ControllerBase
+    public class DebitCardController : Microservice2BaseController
     {
 
         private readonly IDebitCardManager _debitCardManager;
         private readonly IMapper _mapper;
         private readonly ILogger<DebitCardController> _logger;
-
-        public DebitCardController(ILogger<DebitCardController> logger, IDebitCardManager debitCardManager, IMapper mapper)
+        private readonly UnitOfWork _unitOfWork;
+            
+          public DebitCardController(ILogger<DebitCardController> logger, IDebitCardManager debitCardManager, IMapper mapper)
         {
             _debitCardManager = debitCardManager;
             _mapper = mapper;
             _logger = logger;
+            _unitOfWork = new UnitOfWork();
         }
         [Authorize(Roles = "admin")]
         [HttpGet("GetDebitCards")]
         public async Task<IActionResult> GetItems()
         {
+         //  var result =  await _unitOfWork.DebitCard.GetItems();
+         //  _unitOfWork.Save();
             var result = await _debitCardManager.GetItems();
             return Ok(result);
         }
@@ -61,8 +66,11 @@ namespace Microservice2.Controllers
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
+         //  await _unitOfWork.DebitCard.Delete(id);
+         //   _unitOfWork.Save();
             await _debitCardManager.Delete(id);
             return Ok();
         }
+       
     }
 }

@@ -16,17 +16,17 @@ namespace Microservice2.Ef
         public DebitCardDbContext(DbContextOptions<DebitCardDbContext> options) : base(options)
         {
         }
+        public DebitCardDbContext()
+        {
+            
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new DebitCardConfigurations());
             modelBuilder.ApplyConfiguration(new UserConfigurations());
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=usersdb;Username=postgres;Password=12345;Database=234");
-        //}
-
+   
     }
 }
 
