@@ -28,6 +28,11 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using FluentValidation;
 using Microservice2.Model.Dto;
 using FluentValidation.AspNetCore;
+using MongoDB.Driver;
+using Microservice2.Model;
+using Microservice2.MongoDb;
+using Microsoft.Extensions.Options;
+
 
 namespace Microservice2
 {
@@ -63,10 +68,15 @@ namespace Microservice2
             services.AddScoped<IUsersManager, UsersManager>();
             services.AddScoped<IUsersRepo, UsersRepo>();
             services.AddScoped<ILoginManager, LoginManager>();
+            services.AddScoped<IBookService, BookService>();
+
+            services.Configure<BookDatabaseSetting>(
+                   Configuration.GetSection(nameof(BookDatabaseSetting)));
+
+            services.AddSingleton<IBookDatabaseSetting>(sp =>
+                sp.GetRequiredService<IOptions<BookDatabaseSetting>>().Value);
 
             services.AddControllers().AddFluentValidation();
-
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

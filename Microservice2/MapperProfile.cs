@@ -16,6 +16,9 @@ namespace Microservice2
             CreateMap<DebitCardDto, DebitCard>();
             CreateMap<UserDto, User>()
               .ForMember(x => x.PasswordHash, x => x.MapFrom(x => UsersManager.GetPasswordHash(x.Password)));
+
+            CreateMap<BookDto, Book>()
+                 .ForMember(x => x.Id, x => x.MapFrom(x => Guid.NewGuid()));
         }
     }
 }
